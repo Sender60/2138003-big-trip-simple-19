@@ -3,7 +3,7 @@
 * Студент: [Владислав Бутков](https://up.htmlacademy.ru/ecmascript/19/user/2138003).
 * Наставник: [Антон Попов](https://htmlacademy.ru/profile/joker).
 
----
+----
 
 _Не удаляйте и не изменяйте папки и файлы:_
 _`.editorconfig`, `.gitattributes`._
