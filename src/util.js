@@ -9,4 +9,7 @@ const getRandomArrayElement = (items) => (
   items[Math.floor(Math.random() * items.length)]
 );
 
-export {getRandomNumber, getRandomArrayElement};
+const DATE_FORMAT_DATE = 'DD MMM';
+const DATE_FORMAT_TIME = 'HH:mm';
+
+export {getRandomNumber, getRandomArrayElement, DATE_FORMAT_DATE, DATE_FORMAT_TIME};

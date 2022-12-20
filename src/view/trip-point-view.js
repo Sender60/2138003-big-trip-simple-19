@@ -1,9 +1,7 @@
-import {createElement} from '../render.js';
+import { createElement } from '../render.js';
 import { destinations, offersTypes } from '../mock/mock.js';
+import { DATE_FORMAT_DATE, DATE_FORMAT_TIME } from '../util.js';
 import dayjs from 'dayjs';
-
-const DATE_FORMAT_DATE = 'DD MMM';
-const DATE_FORMAT_TIME = 'HH:mm';
 
 const createPointTemplate = (point) =>{
   const {type, offers, destination, basePrice, dateFrom, dateTo} = point;
@@ -15,14 +13,14 @@ const createPointTemplate = (point) =>{
   const offersTemplate = () => {
     if (!checkedOffers.length) {
       return `<li class="event__offer">
-    <span class="event__offer-title">No additional offers</span>
-    </li>`;
+        <span class="event__offer-title">No additional offers</span>
+        </li>`;
     } else {
       const template = checkedOffers.map((offer) => `<li class="event__offer">
-      <span class="event__offer-title">${offer.title}</span>
-      &plus;&euro;&nbsp;
-      <span class="event__offer-price">${offer.price}</span>
-    </li>`).join('');
+        <span class="event__offer-title">${offer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${offer.price}</span>
+        </li>`).join('');
       return template;
     }
   };

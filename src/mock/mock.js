@@ -69,7 +69,7 @@ const offersTypes = [
   {
     'type': 'flight',
     'offers': [{
-      'id': 1,
+      'id': 3,
       'title': 'Choose seats',
       'price': 5
     },
@@ -79,7 +79,7 @@ const offersTypes = [
       'price': 140
     },
     {
-      'id': 3,
+      'id': 4,
       'title': 'Add meal',
       'price': 15
     }]
@@ -87,12 +87,12 @@ const offersTypes = [
   {
     'type': 'check-in',
     'offers': [{
-      'id': 1,
+      'id': 3,
       'title': 'Choose seats',
       'price': 5
     },
     {
-      'id': 2,
+      'id': 4,
       'title': 'Add meal',
       'price': 15
     }]
@@ -132,7 +132,7 @@ const destinations = [
     name: 'Chamonix',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber}`,
+        src: `https://loremflickr.com/248/152?random=${getRandomNumber()}`,
       }
     ]
   },
@@ -142,7 +142,7 @@ const destinations = [
     name: 'Geneve',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber}`,
+        src: `https://loremflickr.com/248/152?random=${getRandomNumber()}`,
       }
     ]
   },
@@ -152,7 +152,7 @@ const destinations = [
     name: 'Amsterdam',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber}`,
+        src: `https://loremflickr.com/248/152?random=${getRandomNumber()}`,
       }
     ]
   }
@@ -162,7 +162,7 @@ const MOCK_POINTS = [
   {
     id: 0,
     type: 'taxi',
-    offers: [1, 2],
+    offers: [1],
     destination: 2,
     basePrice: 500,
     dateFrom: '2019-07-11T20:35:56.845Z',
@@ -180,7 +180,7 @@ const MOCK_POINTS = [
   {
     id: 2,
     type: 'train',
-    offers: [1, 2],
+    offers: [],
     destination: 1,
     basePrice: 200,
     dateFrom: '2019-07-09T22:55:56.845Z',
@@ -189,7 +189,7 @@ const MOCK_POINTS = [
   {
     id: 3,
     type: 'ship',
-    offers: [1, 2],
+    offers: [1],
     destination: 2,
     basePrice: 80,
     dateFrom: '2019-07-10T22:50:56.845Z',
@@ -207,7 +207,7 @@ const MOCK_POINTS = [
   {
     id: 5,
     type: 'flight',
-    offers: [1, 2, 3],
+    offers: [2],
     destination: 1,
     basePrice: 150,
     dateFrom: '2019-07-10T22:55:56.845Z',
@@ -216,7 +216,7 @@ const MOCK_POINTS = [
   {
     id: 6,
     type: 'check-in',
-    offers: [1, 2],
+    offers: [2],
     destination: 3,
     basePrice: 150,
     dateFrom: '2019-07-10T12:55:56.845Z',
@@ -225,7 +225,7 @@ const MOCK_POINTS = [
   {
     id: 7,
     type: 'sightseeing',
-    offers: [1, 2],
+    offers: [],
     destination: 2,
     basePrice: 100,
     dateFrom: '2019-07-10T22:55:56.845Z',
