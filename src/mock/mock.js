@@ -1,4 +1,6 @@
 import {getRandomNumber, getRandomArrayElement} from '../util.js';
+const MIN_NUMBER = 1;
+const MAX_NUMBER = 10;
 
 const offersTypes = [
   {
@@ -132,7 +134,7 @@ const destinations = [
     name: 'Chamonix',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber()}`,
+        src: `https://loremflickr.com/248/152?random=${getRandomNumber(MIN_NUMBER, MAX_NUMBER)}`,
       }
     ]
   },
@@ -142,7 +144,7 @@ const destinations = [
     name: 'Geneve',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber()}`,
+        src: `https://loremflickr.com/248/152?random=${getRandomNumber(MIN_NUMBER, MAX_NUMBER)}`,
       }
     ]
   },
@@ -152,7 +154,7 @@ const destinations = [
     name: 'Amsterdam',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber()}`,
+        src: `https://loremflickr.com/248/152?random=${getRandomNumber(MIN_NUMBER, MAX_NUMBER)}`,
       }
     ]
   }

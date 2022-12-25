@@ -12,4 +12,6 @@ const getRandomArrayElement = (items) => (
 const DATE_FORMAT_DATE = 'DD MMM';
 const DATE_FORMAT_TIME = 'HH:mm';
 
-export {getRandomNumber, getRandomArrayElement, DATE_FORMAT_DATE, DATE_FORMAT_TIME};
+const isEscapeKey = (evt) => (evt.key === 'Escape' || evt.key === 'Esc');
+
+export {getRandomNumber, getRandomArrayElement, DATE_FORMAT_DATE, DATE_FORMAT_TIME, isEscapeKey};
