@@ -5,7 +5,7 @@ const headerElement = document.querySelector('.trip-controls');
 const pointsModel = new PointsModel();
 
 const tripPresenter = new TripPresenter({
-  filterContainer: headerElement,
+  pointContainer: headerElement,
   pointsModel
 });
 

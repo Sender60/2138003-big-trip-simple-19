@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import { createElement } from '../render.js';
 import { destinations, offersTypes } from '../mock/mock.js';
 import dayjs from 'dayjs';
 
@@ -23,17 +23,23 @@ const createEditPointTemplate = (point) => {
     </div>
     `).join('');
 
-  const offersTemplate = pointTypeOffer.offers
-    .map((offer) =>
-      `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.type}-${offer.id}" type="checkbox" name=${offer.title} ${offers.includes(offer.id) ? 'checked' : ''}>
-        <label class="event__offer-label" for="event-offer-${offer.type}-${offer.id}">
-          <span class="event__offer-title">${offer.title}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${offer.price}</span>
-        </label>
-      </div>
-    `).join('');
+  const offersTemplate = () => {
+    let template = '';
+    if (pointTypeOffer) {
+      template = pointTypeOffer.offers
+        .map((offer) =>
+          `<div class="event__offer-selector">
+            <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.type}-${offer.id}" type="checkbox" name=${offer.title} ${offers.includes(offer.id) ? 'checked' : ''}>
+            <label class="event__offer-label" for="event-offer-${offer.type}-${offer.id}">
+              <span class="event__offer-title">${offer.title}</span>
+              &plus;&euro;&nbsp;
+              <span class="event__offer-price">${offer.price}</span>
+            </label>
+          </div>
+        `).join('');
+    }
+    return template;
+  };
 
   const destinationToChoose = destinations.map((element) => `<option value="${element.name}"></option>`).join('');
 
@@ -42,11 +48,11 @@ const createEditPointTemplate = (point) => {
     `<section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
       <div class="event__available-offers">
-        ${offersTemplate}
+        ${offersTemplate()}
       </div>
     </section>`;
 
-    if (!pointTypeOffer.offers.length) {
+    if (!pointTypeOffer) {
       template = '';
     }
     return template;
@@ -110,23 +116,26 @@ const createEditPointTemplate = (point) => {
 };
 
 export default class EditPointView {
-  constructor(point) {
-    this.point = point;
+  #element = null;
+  #point = null;
+
+  constructor({point}) {
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createEditPointTemplate(this.point);
+  get template() {
+    return createEditPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
