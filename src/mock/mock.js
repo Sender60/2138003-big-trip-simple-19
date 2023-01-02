@@ -1,6 +1,5 @@
 import {getRandomNumber, getRandomArrayElement} from '../util.js';
-const MIN_NUMBER = 1;
-const MAX_NUMBER = 10;
+import { MIN_NUMBER, MAX_NUMBER } from '../const.js';
 
 const offersTypes = [
   {
