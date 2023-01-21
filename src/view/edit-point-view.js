@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { destinations, offersTypes } from '../mock/mock.js';
 import dayjs from 'dayjs';
 
@@ -115,27 +115,34 @@ const createEditPointTemplate = (point) => {
   );
 };
 
-export default class EditPointView {
-  #element = null;
+export default class EditPointView extends AbstractView {
   #point = null;
+  #handleFormSubmit = null;
+  #handleRollupBtnClick = null;
 
-  constructor({point}) {
+  constructor({point, onFormSubmit, onRollupBtnClick}) {
+    super();
     this.#point = point;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleRollupBtnClick = onRollupBtnClick;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#rollupButtonClickHandler);
   }
 
   get template() {
     return createEditPointTemplate(this.#point);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #rollupButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleRollupBtnClick();
+  };
 }

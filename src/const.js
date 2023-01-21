@@ -1,7 +1,19 @@
-const MIN_NUMBER = 1;
-const MAX_NUMBER = 10;
-
 const DATE_FORMAT_DATE = 'DD MMM';
 const DATE_FORMAT_TIME = 'HH:mm';
 
-export { MIN_NUMBER, MAX_NUMBER, DATE_FORMAT_DATE, DATE_FORMAT_TIME };
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future'
+};
+
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers',
+};
+
+const DATE_FORMAT = 'DD/MM/YY HH:mm';
+
+export { DATE_FORMAT_DATE, DATE_FORMAT_TIME, FilterType, SortType, DATE_FORMAT };
