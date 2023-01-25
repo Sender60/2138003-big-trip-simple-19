@@ -3,6 +3,19 @@ import { destinations, offersTypes } from '../mock/mock.js';
 import { DATE_FORMAT } from '../const.js';
 import dayjs from 'dayjs';
 
+const DEFAULT_START_DATE = dayjs().toISOString();
+const DEFAULT_END_DATE = dayjs().add((1),'day').toISOString();
+
+const defaultNewPoint = {
+  basePrice: 0,
+  dateFrom: DEFAULT_START_DATE,
+  dateTo: DEFAULT_END_DATE,
+  destination: 1,
+  id: 0,
+  offers: [],
+  type: 'taxi'
+};
+
 const createNewPointTemplate = (point) => {
   const {basePrice, dateFrom, dateTo, destination, id, offers, type} = point;
   const pointTypeOffer = offersTypes.find((offer) => offer.type === type);
@@ -117,15 +130,15 @@ const createNewPointTemplate = (point) => {
 };
 
 export default class NewPointView extends AbstractView {
-  // #point = null;
+  #point = null;
 
-  // constructor({point = DefaultNewPoint}) {
-  //   super();
-  //   this.#point = point;
-  // }
+  constructor({point = defaultNewPoint}) {
+    super();
+    this.#point = point;
+  }
 
   get template() {
-    return createNewPointTemplate();
+    return createNewPointTemplate(this.#point);
   }
 
 }

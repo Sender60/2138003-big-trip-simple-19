@@ -54,10 +54,6 @@ export default class TripPresenter {
         document.removeEventListener('keydown', onEscKeyDown);
       }});
 
-    // const pointRollupBtn = pointComponent.element.querySelector('.event__rollup-btn');
-    // const editPointForm = pointEditComponent.element.querySelector('form');
-    // const editRollupBtn = editPointForm.querySelector('.event__rollup-btn');
-
     function replacePointToForm () {
       replace(pointEditComponent, pointComponent);
     }
