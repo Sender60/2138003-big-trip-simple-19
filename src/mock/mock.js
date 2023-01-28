@@ -1,5 +1,6 @@
 import { getRandomNumber, getRandomArrayElement } from './const.js';
 import { MIN_NUMBER, MAX_NUMBER } from './const.js';
+import { nanoid } from 'nanoid';
 
 const offersTypes = [
   {
@@ -161,7 +162,6 @@ const destinations = [
 
 const MOCK_POINTS = [
   {
-    id: 0,
     type: 'taxi',
     offers: [1],
     destination: 2,
@@ -170,7 +170,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-12T11:25:13.375Z'
   },
   {
-    id: 1,
     type: 'bus',
     offers: [1, 2],
     destination: 1,
@@ -179,7 +178,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-11T11:22:13.375Z'
   },
   {
-    id: 2,
     type: 'train',
     offers: [],
     destination: 1,
@@ -188,7 +186,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-10T12:22:13.375Z'
   },
   {
-    id: 3,
     type: 'ship',
     offers: [1],
     destination: 2,
@@ -197,7 +194,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-11T11:22:10.375Z'
   },
   {
-    id: 4,
     type: 'drive',
     offers: [1, 2],
     destination: 3,
@@ -206,7 +202,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-11T11:22:13.375Z'
   },
   {
-    id: 5,
     type: 'flight',
     offers: [2],
     destination: 1,
@@ -215,7 +210,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-10T11:23:59.005Z'
   },
   {
-    id: 6,
     type: 'check-in',
     offers: [2],
     destination: 3,
@@ -224,7 +218,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-10T22:22:13.375Z'
   },
   {
-    id: 7,
     type: 'sightseeing',
     offers: [],
     destination: 2,
@@ -233,7 +226,6 @@ const MOCK_POINTS = [
     dateTo: '2019-07-11T11:22:13.375Z'
   },
   {
-    id: 8,
     type: 'restaurant',
     offers: [1, 2],
     destination: 1,
@@ -243,6 +235,8 @@ const MOCK_POINTS = [
   }
 ];
 
-const getRandomPoint = () => (getRandomArrayElement(MOCK_POINTS));
+const getRandomPoint = () => ({
+  id: nanoid(),
+  ...getRandomArrayElement(MOCK_POINTS)});
 
 export { destinations, offersTypes, getRandomPoint};

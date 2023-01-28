@@ -1,6 +1,6 @@
 import TripPresenter from './presenter/trips-presenter.js';
 import PointsModel from './model/model.js';
-import {render} from './framework/render.js';
+import { render } from './framework/render.js';
 import ListFilterView from './view/list-filter-view.js';
 import { getFilter } from './mock/filter.js';
 
