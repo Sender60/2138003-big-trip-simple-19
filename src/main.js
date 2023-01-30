@@ -6,11 +6,13 @@ import { getFilter } from './mock/filter.js';
 
 const tripEventsElement = document.querySelector('.trip-events');
 const headerElement = document.querySelector('.trip-controls');
+const headerFiltersElement = document.querySelector('.trip-controls__filters');
 const pointsModel = new PointsModel();
 
 const tripPresenter = new TripPresenter({
   pointContainer: tripEventsElement,
-  pointsModel
+  pointsModel,
+  headerFiltersElement
 });
 
 const filters = getFilter(pointsModel.points);

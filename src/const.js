@@ -8,10 +8,8 @@ const FilterType = {
 
 const SortType = {
   DAY: 'day',
-  EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
-  OFFERS: 'offers',
 };
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
