@@ -6,4 +6,15 @@ const filter = {
   [FilterType.FUTURE]: (points) => points.filter((point) => isPointfuture(point.dateFrom))
 };
 
-export { filter };
+const getFilteredPointsByType = (points, filterType) => {
+  switch (filterType) {
+    case FilterType.EVERYTHING:
+      return points;
+    case FilterType.FUTURE:
+      return points.filter((point) => isPointfuture(point.dateFrom, point.dateTo));
+    default:
+      return points;
+  }
+};
+
+export {filter, getFilteredPointsByType};

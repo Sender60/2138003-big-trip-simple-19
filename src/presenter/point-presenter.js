@@ -65,7 +65,7 @@ export default class PointPresenter {
   }
 
   #escKeydownHandler = (evt) => {
-    if (isEscapeKey) {
+    if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.#replaceEditFormToPoint();
     }
