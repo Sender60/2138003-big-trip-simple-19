@@ -1,8 +1,19 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { destinations, offersTypes } from '../mock/mock.js';
 import dayjs from 'dayjs';
+import { DEFAULT_START_DATE, DEFAULT_END_DATE } from '../const.js';
 
 const DATE_FORMAT = 'DD/MM/YY HH:mm';
+
+const defaultNewPoint = {
+  basePrice: 0,
+  dateFrom: DEFAULT_START_DATE,
+  dateTo: DEFAULT_END_DATE,
+  destination: 1,
+  id: 0,
+  offers: [],
+  type: 'taxi'
+};
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -57,6 +68,17 @@ const createEditPointTemplate = (point) => {
     }
     return template;
   };
+
+  const picturesTemplate = () => {
+    let template = '';
+    if (pointDestination) {
+      template = pointDestination.pictures
+        .map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`)
+        .join('');
+    }
+    return template;
+  };
+
   return (
     `<li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
@@ -108,6 +130,11 @@ const createEditPointTemplate = (point) => {
           <section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
             <p class="event__destination-description">${pointDestination.description}</p>
+            <div class="event__photos-container">
+              <div class="event__photos-tape">
+              ${picturesTemplate()}
+              </div>
+            </div>
           </section>
         </section>
       </form>
@@ -115,34 +142,58 @@ const createEditPointTemplate = (point) => {
   );
 };
 
-export default class EditPointView extends AbstractView {
-  #point = null;
+export default class EditPointView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleRollupBtnClick = null;
 
-  constructor({point, onFormSubmit, onRollupBtnClick}) {
+  constructor({point = defaultNewPoint, onFormSubmit, onRollupBtnClick}) {
     super();
-    this.#point = point;
+    this._setState(EditPointView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleRollupBtnClick = onRollupBtnClick;
 
+    this._restoreHandlers();
+  }
+
+  get template() {
+    return createEditPointTemplate(this._state);
+  }
+
+  _restoreHandlers() {
     this.element.querySelector('form')
       .addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#rollupButtonClickHandler);
+    this.element.querySelector('.event__type-group')
+      .addEventListener('change', this.#typeLabelHandler);
+    this.element.querySelector('.event__input--destination')
+      .addEventListener('change', this.#inputDestinacionHandler);
   }
 
-  get template() {
-    return createEditPointTemplate(this.#point);
-  }
+  static parsePointToState = (point) => ({ ...point });
+
+  static parseStateToPoint = (state) => ({ ...state });
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
   };
 
   #rollupButtonClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleRollupBtnClick();
+  };
+
+  #inputDestinacionHandler = (evt) => {
+    evt.preventDefault();
+  };
+
+  #typeLabelHandler = (evt) => {
+    evt.preventDefault();
+    if (evt.target.tagName === 'INPUT') {
+      this.updateElement({
+        type: evt.target.value,
+      });
+    }
   };
 }
