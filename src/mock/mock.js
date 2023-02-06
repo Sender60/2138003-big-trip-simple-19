@@ -1,242 +1,168 @@
-import { getRandomNumber, getRandomArrayElement } from './const.js';
-import { MIN_NUMBER, MAX_NUMBER } from './const.js';
 import { nanoid } from 'nanoid';
 
-const offersTypes = [
+const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
+
+const mockPoints = [
   {
-    'type': 'taxi',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
+    basePrice: 100,
+    dateFrom: new Date('2022-01-01T05:30'),
+    dateTo: new Date('2022-01-02T21:45'),
+    destId: 0,
+    selectedOffers: [1, 2],
+    type: 'taxi',
+    id: nanoid(),
   },
   {
-    'type': 'bus',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
+    basePrice: 150,
+    dateFrom: new Date('2022-02-02T01:15'),
+    dateTo: new Date('2022-03-03T02:20'),
+    destId: 1,
+    selectedOffers: [1],
+    type: 'bus',
+    id: nanoid(),
   },
   {
-    'type': 'train',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
+    basePrice: 200,
+    dateFrom: new Date('2022-10-10T15:30'),
+    dateTo: new Date('2022-11-11T17:30'),
+    destId: 2,
+    selectedOffers: [2, 3],
+    type: 'train',
+    id: nanoid(),
   },
   {
-    'type': 'ship',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
+    basePrice: 130,
+    dateFrom: new Date('2023-12-01T18:00'),
+    dateTo: new Date('2023-01-11T06:30'),
+    destId: 3,
+    selectedOffers: [3, 4],
+    type: 'ship',
+    id: nanoid(),
   },
-  {
-    'type': 'drive',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
-  },
-  {
-    'type': 'flight',
-    'offers': [{
-      'id': 3,
-      'title': 'Choose seats',
-      'price': 5
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    },
-    {
-      'id': 4,
-      'title': 'Add meal',
-      'price': 15
-    }]
-  },
-  {
-    'type': 'check-in',
-    'offers': [{
-      'id': 3,
-      'title': 'Choose seats',
-      'price': 5
-    },
-    {
-      'id': 4,
-      'title': 'Add meal',
-      'price': 15
-    }]
-  },
-  {
-    'type': 'sightseeing',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
-  },
-  {
-    'type': 'restaurant',
-    'offers': [{
-      'id': 1,
-      'title': 'Choose the radio station',
-      'price': 120
-    },
-    {
-      'id': 2,
-      'title': 'Upgrade to a business class',
-      'price': 140
-    }]
-  }
 ];
 
-const destinations = [
+const mockOffers = [
+  {
+    id: 0,
+    title: 'Order Uber',
+    price: 20,
+  },
   {
     id: 1,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
-    name: 'Chamonix',
+    title: 'Add luggage',
+    price: 50,
+  },
+  {
+    id: 2,
+    title: 'Switch to comfort',
+    price: 80,
+  },
+  {
+    id: 3,
+    title: 'Add breakfast',
+    price: 100,
+  },
+  {
+    id: 4,
+    title: 'Rent a car',
+    price: 200,
+  },
+];
+
+const mockDestinations = [
+  {
+    id: 0,
+    description: 'Ashgabat is the capital of Turkmenistan. It’s known for its white marble buildings and grandiose national monuments.',
+    name: 'Ashgabat',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber(MIN_NUMBER, MAX_NUMBER)}`,
+        src: 'http://picsum.photos/300/200?r=0.0762563005163317',
+        description: 'Ashgabat parliament building',
+      }
+    ]
+  },
+  {
+    id: 1,
+    description: 'Kabul is the capital and largest city of Afghanistan. Located in the eastern half of the country, it is also a municipality, forming part of the Kabul Province.',
+    name: 'Kabul',
+    pictures: [
+      {
+        src: 'http://picsum.photos/300/200?r=0.0762563005163317',
+        description: 'Kabul parliament building',
       }
     ]
   },
   {
     id: 2,
-    description: 'Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
-    name: 'Geneve',
+    description: 'Caracas, Venezuela\'s capital, is a commercial and cultural center located in a northern mountain valley.',
+    name: 'Caracas',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber(MIN_NUMBER, MAX_NUMBER)}`,
+        src: 'http://picsum.photos/300/200?r=0.0762563005163317',
+        description: 'Caracas parliament building',
       }
     ]
   },
   {
     id: 3,
-    description: 'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
-    name: 'Amsterdam',
+    description: 'Pyongyang is the capital and largest city of North Korea, where it is known as the "Capital of the Revolution".',
+    name: 'Pyongyang',
     pictures: [
       {
-        src: `https://loremflickr.com/248/152?random=${getRandomNumber(MIN_NUMBER, MAX_NUMBER)}`,
+        src: 'https://i.ibb.co/CPm5sb1/kim.jpg',
+        description: 'The leader of the Workers\' Party',
       }
     ]
-  }
+  },
 ];
 
-const MOCK_POINTS = [
+const mockOffersByType = [
   {
     type: 'taxi',
-    offers: [1],
-    destination: 2,
-    basePrice: 500,
-    dateFrom: '2019-07-11T20:35:56.845Z',
-    dateTo: '2019-07-12T11:25:13.375Z'
+    offers: [0, 1, 2, 3]
   },
   {
     type: 'bus',
-    offers: [1, 2],
-    destination: 1,
-    basePrice: 40,
-    dateFrom: '2019-07-10T21:50:00.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z'
+    offers: [0, 1, 2]
   },
   {
     type: 'train',
-    offers: [],
-    destination: 1,
-    basePrice: 200,
-    dateFrom: '2019-07-09T22:55:56.845Z',
-    dateTo: '2019-07-10T12:22:13.375Z'
+    offers: [2, 3]
   },
   {
     type: 'ship',
-    offers: [1],
-    destination: 2,
-    basePrice: 80,
-    dateFrom: '2019-07-10T22:50:56.845Z',
-    dateTo: '2019-07-11T11:22:10.375Z'
+    offers: [3, 4]
   },
   {
     type: 'drive',
-    offers: [1, 2],
-    destination: 3,
-    basePrice: 90,
-    dateFrom: '2019-07-11T10:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z'
+    offers: [1, 4]
   },
   {
     type: 'flight',
-    offers: [2],
-    destination: 1,
-    basePrice: 150,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-10T11:23:59.005Z'
+    offers: [2, 4]
   },
   {
     type: 'check-in',
-    offers: [2],
-    destination: 3,
-    basePrice: 150,
-    dateFrom: '2019-07-10T12:55:56.845Z',
-    dateTo: '2019-07-10T22:22:13.375Z'
+    offers: []
   },
   {
     type: 'sightseeing',
-    offers: [],
-    destination: 2,
-    basePrice: 100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z'
+    offers: [0, 1, 3]
   },
   {
     type: 'restaurant',
-    offers: [1, 2],
-    destination: 1,
-    basePrice: 100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z'
-  }
+    offers: [0, 1, 2, 3, 4]
+  },
 ];
 
-const getRandomPoint = () => ({
-  id: nanoid(),
-  ...getRandomArrayElement(MOCK_POINTS)});
+const getRandomPoint = () => {
+  const point = getRandomArrayElement(mockPoints);
+  return point;
+};
 
-export { destinations, offersTypes, getRandomPoint};
+const getPoints = () => mockPoints;
+const getOffers = () => mockOffers;
+const getDestinations = () => mockDestinations;
+const getOffersByType = () => mockOffersByType;
+
+export { getPoints, getRandomPoint, getOffers, getDestinations, getOffersByType };
