@@ -1,41 +1,41 @@
 import dayjs from 'dayjs';
 
-const DATE_FORMAT = 'MMM DD';
-const TIME_FORMAT = 'hh:mm';
-const EDIT_DATE_FORMAT = 'DD/MM/YY hh:mm';
+const isPointfuture = (dateFrom) => dateFrom && (dayjs().isSame(dateFrom, 'D') || dayjs().isBefore(dateFrom, 'D'));
 
-function humanizeTravelDay(dateFrom) {
-  return dateFrom ? dayjs(dateFrom).format(DATE_FORMAT) : '';
-}
+const getWeightForNullParam = (a, b) => {
+  if (a === null && b === null) {
+    return 0;
+  }
+  if (a === null) {
+    return 1;
+  }
+  if (b === null) {
+    return -1;
+  }
 
-function humanizeTimeFromTo(dateTo) {
-  return dateTo ? dayjs(dateTo).format(TIME_FORMAT) : '';
-}
+  return null;
+};
 
-function humanizeTimeEdit(dateTime) {
-  return dateTime ? dayjs(dateTime).format(EDIT_DATE_FORMAT) : '';
-}
+const sortDate = (pointA, pointB) => {
+  const weight = getWeightForNullParam(pointA.dateFrom, pointB.dateFrom);
+  return weight ?? dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+};
 
-function humanizeTravelTime(from, to) {
-  return dayjs(to).diff(dayjs(from), 'h');
-}
+const sortPrice = (pointA, pointB) => {
+  const weight = getWeightForNullParam(pointA.totalPrice, pointB.totalPrice);
+  return weight ?? pointB.totalPrice - pointA.totalPrice;
+};
 
-function isPointfuture(dateFrom) {
-  return dayjs(dateFrom).isAfter(dayjs());
-}
+const pointAvaliableOfferIds = (point, pointCommon) => pointCommon.offersByType.find((o) => o.type === point.type).offers;
+const calculateTotalPrice = (point, pointCommon) => {
+  let price = point.basePrice;
+  point.selectedOffers.map((selectedOfferId) => {
+    const offer = pointCommon.allOffers.find((o) => o.id === selectedOfferId);
+    price += offer.price;
+  });
+  return price;
+};
 
-function sortTimeDown(pointA, pointB) {
-  const spendTimeA = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
-  const spendTimeB = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
-  return spendTimeB - spendTimeA;
-}
+const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 
-function sortPriceDown(pointA, pointB) {
-  return pointB.basePrice - pointA.basePrice;
-}
-
-function updateItem(items, update) {
-  return items.map((item) => item.id === update.id ? update : item);
-}
-
-export { humanizeTimeFromTo, humanizeTravelDay, humanizeTimeEdit, humanizeTravelTime, isPointfuture, sortTimeDown, sortPriceDown, updateItem };
+export { isPointfuture, sortDate, sortPrice, pointAvaliableOfferIds, calculateTotalPrice, isDatesEqual };
