@@ -1,7 +1,7 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { POINT_TYPES } from '../const.js';
 import dayjs from 'dayjs';
-import { pointAvaliableOfferIds } from '../utils/point.js';
+import { getOffersByType } from '../utils/point.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -24,8 +24,7 @@ const createPointEditEventTypeItemsTemplate = () => POINT_TYPES.map((pointType, 
     `).join('');
 
 const createPointEditOffersTemplate = (point, pointCommon) => {
-  const offersMarkup = pointAvaliableOfferIds(point, pointCommon).map((pointAvaliableOfferId, i) => {
-    const offer = pointCommon.allOffers.find((o) => o.id === pointAvaliableOfferId);
+  const offersMarkup = getOffersByType(point, pointCommon).map((offer, i) => {
     const checked = point.selectedOffers.includes(offer.id) ? 'checked' : '';
     const eventInputName = `event-offer-${offer.title.toLowerCase().replaceAll(' ', '-')}`;
     return `
@@ -68,7 +67,7 @@ const createPointEditDestinationTemplate = (point, pointCommon) => {
 };
 const createPointEditOffersDestinationTemplate = (point, pointCommon) => (`
     <section class="event__details">
-    ${(pointAvaliableOfferIds(point, pointCommon).length > 0) ? `${createPointEditOffersTemplate(point, pointCommon)}` : ''}
+    ${(getOffersByType(point, pointCommon).length > 0) ? `${createPointEditOffersTemplate(point, pointCommon)}` : ''}
     ${(point.destId !== -1) ? `${createPointEditDestinationTemplate(point, pointCommon)}` : ''}
     </section>
 `);
@@ -86,7 +85,7 @@ const createEditPointTemplate = (point, pointCommon) => {
   }
 
   const pointEditOffersDestinationTemplate =
-    (pointAvaliableOfferIds(point, pointCommon).length === 0 && point.destId === -1) ? '' :
+    (getOffersByType(point, pointCommon).length === 0 && point.destId === -1) ? '' :
       createPointEditOffersDestinationTemplate(point, pointCommon);
 
   return (
@@ -194,14 +193,18 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#deleteClickHandler);
     const rollupButtonElement = this.element.querySelector('.event__rollup-btn');
+
     if (rollupButtonElement) {
       rollupButtonElement.addEventListener('click', this.#closeClickHandler);
     }
+
     this.element.querySelector('.event__type-group').addEventListener('change', this.#pointTypeChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
-    if (pointAvaliableOfferIds(this._state, this.#pointCommon).length > 0) {
+
+    if (getOffersByType(this._state, this.#pointCommon).length > 0) {
       this.element.querySelector('.event__available-offers').addEventListener('change', this.#offerChangeHandler);
     }
+
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.#setDateFromPicker();
   }
