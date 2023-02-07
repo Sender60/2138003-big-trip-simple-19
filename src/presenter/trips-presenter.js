@@ -7,6 +7,8 @@ import NewPointPresenter from './new-point-presenter.js';
 import { sortDate, sortPrice, calculateTotalPrice } from '../utils/point.js';
 import { filter } from '../utils/filter.js';
 import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
+import LoadingView from '../view/loading-view.js';
+import ErrorLoadingView from '../view/error-loading-view.js';
 
 export default class TripPresenter {
   #boardContainer = null;
@@ -15,6 +17,8 @@ export default class TripPresenter {
   #filterModel = null;
 
   #pointListComponent = new TripEventListView();
+  #loadingComponent = new LoadingView();
+  #ErrorLoadingView = new ErrorLoadingView();
   #sortComponent = null;
   #noPointComponent = null;
   #pointCommon = null;
@@ -22,6 +26,9 @@ export default class TripPresenter {
   #newPointPresenter = null;
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
+  #isPointLoading = true;
+  #isPointCommonLoading = true;
+  #isErrorLoading = false;
 
   constructor({ boardContainer, pointsModel, pointCommonModel, filterModel, onNewPointDestroy }) {
     this.#boardContainer = boardContainer;
@@ -37,6 +44,7 @@ export default class TripPresenter {
     });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#pointCommonModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
@@ -103,6 +111,26 @@ export default class TripPresenter {
         this.#clearBoard({ resetSortType: true });
         this.#renderBoard();
         break;
+      case UpdateType.INIT_POINT:
+        this.#isPointLoading = false;
+        if (!this.#isPointLoading && !this.#isPointCommonLoading) {
+          remove(this.#loadingComponent);
+          this.#renderBoard();
+        }
+        break;
+      case UpdateType.INIT_POINT_COMMON:
+        this.#pointCommon = this.#pointCommonModel.pointCommon;
+        this.#isPointCommonLoading = false;
+        if (!this.#isPointLoading && !this.#isPointCommonLoading) {
+          remove(this.#loadingComponent);
+          this.#renderBoard();
+        }
+        break;
+      case UpdateType.ERROR_LOADING:
+        this.#isErrorLoading = true;
+        remove(this.#loadingComponent);
+        this.#renderBoard();
+        break;
     }
   };
 
@@ -148,12 +176,21 @@ export default class TripPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   }
 
+  #renderLoading() {
+    render(this.#loadingComponent, this.#boardContainer);
+  }
+
+  #renderErrorLoading() {
+    render(this.#ErrorLoadingView, this.#boardContainer);
+  }
+
   #clearBoard({ resetSortType = false } = {}) {
     this.#newPointPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -165,6 +202,16 @@ export default class TripPresenter {
   }
 
   #renderBoard() {
+    if (this.#isErrorLoading) {
+      this.#renderErrorLoading();
+      return;
+    }
+
+    if (this.#isPointLoading || this.#isPointCommonLoading) {
+      this.#renderLoading();
+      return;
+    }
+
     const points = this.points;
     if (points.length === 0) {
       this.#renderNoPoints();
